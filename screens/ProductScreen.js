@@ -25,19 +25,23 @@ export default function FavouriteScreen(props) {
   const item = props.route.params;
   const [size, setSize] = useState("small");
   const navigation = useNavigation();
-
+  const [volume, setVolume] = useState(item.volume);
   const [price, setPrice] = useState(item.price);
 
   const handleSizeChange = (newSize) => {
     setSize(newSize);
     if (newSize === "small") {
       setPrice(parseFloat(item.price));
+      setVolume(item.volume);
     } else if (newSize === "medium") {
       setPrice(parseFloat(item.price) + 5.0);
+      setVolume(parseFloat(item.volume) + 80.0);
     } else if (newSize === "large") {
       setPrice(parseFloat(item.price) + 8.0);
+      setVolume(parseFloat(item.volume) + 100.0);
     }
   };
+
   return (
     <View className="flex-1">
       <StatusBar style="light" />
@@ -172,7 +176,7 @@ export default function FavouriteScreen(props) {
             </Text>
             <Text className="text-base text-black font-semibold">
               {" "}
-              {item.volume}
+              {volume}ml
             </Text>
           </View>
           <View className="flex-row items-center space-x-4 border-gray-500 border rounded-full p-1 px-4">

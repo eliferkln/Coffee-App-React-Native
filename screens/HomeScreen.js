@@ -23,6 +23,7 @@ const ios = Platform.OS == "ios";
 export default function HomeScreen() {
   const [searchText, setSearchText] = useState("");
   const [activeCategory, setActiveCategory] = useState(1);
+  const [activeCategoryName, setActiveCategoryName] = useState("");
 
   const handleSearch = (text) => {
     setSearchText(text);
@@ -85,7 +86,10 @@ export default function HomeScreen() {
               let activeTextClass = isActive ? "text-white" : "text-gray-700";
               return (
                 <TouchableOpacity
-                  onPress={() => setActiveCategory(item.id)}
+                  onPress={() => {
+                    setActiveCategory(item.id);
+                    setActiveCategoryName(item.name);
+                  }}
                   style={{
                     backgroundColor: isActive
                       ? themeColors.bgLight
@@ -112,7 +116,13 @@ export default function HomeScreen() {
         <View>
           <Carousel
             containerCustomStyle={{ overflow: "visible" }}
-            data={filteredCoffeeItems}
+            data={
+              activeCategoryName === ""
+                ? filteredCoffeeItems
+                : filteredCoffeeItems.filter(
+                    (item) => item.name === activeCategoryName
+                  )
+            }
             renderItem={({ item }) => <CoffeeCard item={item} />}
             firstItem={1}
             loop={true}

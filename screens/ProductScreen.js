@@ -27,7 +27,14 @@ export default function FavouriteScreen(props) {
   const navigation = useNavigation();
   const [volume, setVolume] = useState(item.volume);
   const [price, setPrice] = useState(item.price);
+  const [quantity, setQuantity] = useState(0);
 
+  const handleQuantityChange = (newQuantity) => {
+    if (newQuantity >= 0) {
+      setQuantity(newQuantity);
+      setPrice(parseFloat(item.price) * newQuantity);
+    }
+  };
   const handleSizeChange = (newSize) => {
     setSize(newSize);
     if (newSize === "small") {
@@ -180,16 +187,20 @@ export default function FavouriteScreen(props) {
             </Text>
           </View>
           <View className="flex-row items-center space-x-4 border-gray-500 border rounded-full p-1 px-4">
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleQuantityChange(quantity - 1)}
+            >
               <MinusIcon size="20" strokeWidth={3} color={themeColors.text} />
             </TouchableOpacity>
             <Text
               style={{ color: themeColors.text }}
               className="font-extrabold text-lg"
             >
-              2
+              {quantity}
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleQuantityChange(quantity + 1)}
+            >
               <PlusIcon size="20" strokeWidth={3} color={themeColors.text} />
             </TouchableOpacity>
           </View>
